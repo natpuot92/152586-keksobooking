@@ -45,7 +45,7 @@ for (var i = 0; i < titleArray.length; i++) {
   var checkout = getArrayRandomNumber(checkoutArray);
 
   var featuresArray = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
-  featuresArray.length = featuresArray.length - getRandomDigit(0, 6);
+  featuresArray.length = featuresArray.length - getRandomDigit(0, 5);
 
   var description = '';
 
@@ -74,11 +74,7 @@ for (var i = 0; i < titleArray.length; i++) {
      }
   }
  arrayAd.push(ad);
-
 }
-console.log(arrayAd);
-
-
 
 var parentPinMap = document.querySelector('.tokyo__pin-map');
 
@@ -92,8 +88,56 @@ for (var i = 0; i < titleArray.length; i++) {
   childDiv.innerHTML = '<img src=" ' + arrayAd[i].autor.avatar + ' " class="rounded" width="40" height="40"></div>';
 
   fragment.appendChild(childDiv);
-  console.log(fragment);
-
 }
+
  parentPinMap.appendChild(fragment);
+
+var dialogPanel = document.querySelector('.dialog__panel');
+
+var parent = dialogPanel.parentElement;
+
+var template = document.querySelector('#lodge-template');
+
+var newElement = template.content.cloneNode(true);
+
+parent.appendChild(newElement);
+
+parent.replaceChild(newElement, dialogPanel);
+
+var newElementBlock = document.querySelector('.dialog__panel');
+
+var title = newElementBlock.querySelector('.lodge__title');
+title.textContent = arrayAd[0].offer.title;
+
+var address = newElementBlock.querySelector('.lodge__address');
+console.log(address);
+address.textContent = arrayAd[0].offer.address;
+
+var price = newElementBlock.querySelector('.lodge__price');
+price.innerHTML = arrayAd[0].offer.price + '&#x20bd;/ + ночь';
+
+var type = newElementBlock.querySelector('.lodge__type');
+type.innerHTML = arrayAd[0].offer.type;
+
+var roomsAndGuests = newElementBlock.querySelector('.lodge__rooms-and-guests');
+roomsAndGuests.innerHTML = 'Для ' + arrayAd[0].offer.guests + ' гостей в ' + arrayAd[0].offer.rooms + ' комнатах';
+
+var checkinAndCheckout = newElementBlock.querySelector('.lodge__checkin-time');
+  checkinAndCheckout.innerHTML = 'Заезд после ' + arrayAd[0].offer.checkin + ', выезд до ' + arrayAd[0].offer.checkout;
+
+var features = newElementBlock.querySelector('.lodge__features');
+
+for (var i = 0; i < arrayAd[0].offer.features.length; i++) {
+  var featuresElement = document.createElement('span');
+  featuresElement.className = 'feature__image feature__image--' + arrayAd[0].offer.features[i];
+  console.log(featuresElement);
+
+  features.appendChild(featuresElement);
+}
+
+var description = newElementBlock.querySelector('.lodge__description');
+  description.innerHTML = arrayAd[0].offer.description;
+
+var avatar = document.querySelector('.dialog__title img');
+avatar.src = arrayAd[0].autor.avatar;
 
