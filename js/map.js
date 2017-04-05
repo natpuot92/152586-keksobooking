@@ -1,22 +1,22 @@
 'use strict';
 
 function getRandomDigit(min, max) {
-    return Math.floor(Math.random() * (max - min+1)) + min;
-};
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function getArrayRandomNumber(array) {
   var randomNumberArray = Math.floor(Math.random() * array.length);
   return array[randomNumberArray];
-};
+}
 
-var titleArray = ["Большая уютная квартира",
-              "Маленькая неуютная квартира",
-              "Огромный прекрасный дворец",
-              "Маленький ужасный дворец",
-              "Красивый гостевой домик",
-              "Некрасивый негостеприимный домик",
-              "Уютное бунгало далеко от моря",
-              "Неуютное бунгало по колено в воде"];
+var titleArray = ['Большая уютная квартира',
+              'Маленькая неуютная квартира',
+              'Огромный прекрасный дворец',
+              'Маленький ужасный дворец',
+              'Красивый гостевой домик',
+              'Некрасивый негостеприимный домик',
+              'Уютное бунгало далеко от моря',
+              'Неуютное бунгало по колено в воде'];
 
 var typeArray = ['flat', 'house', 'bungalo'];
 
@@ -43,7 +43,7 @@ for (var i = 0; i < titleArray.length; i++) {
 
   var checkout = getArrayRandomNumber(checkoutArray);
 
-  var featuresArray = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
+  var featuresArray = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   featuresArray.length = featuresArray.length - getRandomDigit(0, 5);
 
   var description = '';
@@ -51,27 +51,27 @@ for (var i = 0; i < titleArray.length; i++) {
   var photos = [];
 
   var ad = {
-    'autor' : {
-      'avatar' : 'img/avatars/user' + 0 + (i+1) + '.png'
+    'autor': {
+      'avatar': 'img/avatars/user' + 0 + (i + 1) + '.png'
     },
-    'offer' : {
-      'title' : stringArray,
-      'address' : '' + addressX + ',' + addressY,
-      'price' : price,
-      'type' : getArrayRandomNumber(typeArray),
-      'rooms' : rooms,
-      'guests' : guests,
-      'checkin' : checkin,
-      'checkout' : checkout,
-      'features' : featuresArray,
-      'description' : '',
-      'photos' : []
+    'offer': {
+      'title': stringArray,
+      'address': '' + addressX + ',' + addressY,
+      'price': price,
+      'type': getArrayRandomNumber(typeArray),
+      'rooms': rooms,
+      'guests': guests,
+      'checkin': checkin,
+      'checkout': checkout,
+      'features': featuresArray,
+      'description': '',
+      'photos': []
     },
-     'location': {
-       'X' : addressX,
-       'Y' : addressY
-     };
-  }
+    'location': {
+      'X': addressX,
+      'Y': addressY
+    }
+  };
   arrayAd.push(ad);
 }
 
