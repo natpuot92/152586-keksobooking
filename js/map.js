@@ -1,14 +1,13 @@
 'use strict';
 
-
 function getRandomDigit(min, max) {
     return Math.floor(Math.random() * (max - min+1)) + min;
-}
+};
 
 function getArrayRandomNumber(array) {
   var randomNumberArray = Math.floor(Math.random() * array.length);
   return array[randomNumberArray];
-}
+};
 
 var titleArray = ["Большая уютная квартира",
               "Маленькая неуютная квартира",
@@ -71,9 +70,9 @@ for (var i = 0; i < titleArray.length; i++) {
      'location': {
        'X' : addressX,
        'Y' : addressY
-     }
+     };
   }
- arrayAd.push(ad);
+  arrayAd.push(ad);
 }
 
 var parentPinMap = document.querySelector('.tokyo__pin-map');
@@ -90,7 +89,7 @@ for (var i = 0; i < titleArray.length; i++) {
   fragment.appendChild(childDiv);
 }
 
- parentPinMap.appendChild(fragment);
+parentPinMap.appendChild(fragment);
 
 var dialogPanel = document.querySelector('.dialog__panel');
 
@@ -110,7 +109,6 @@ var title = newElementBlock.querySelector('.lodge__title');
 title.textContent = arrayAd[0].offer.title;
 
 var address = newElementBlock.querySelector('.lodge__address');
-console.log(address);
 address.textContent = arrayAd[0].offer.address;
 
 var price = newElementBlock.querySelector('.lodge__price');
@@ -123,20 +121,19 @@ var roomsAndGuests = newElementBlock.querySelector('.lodge__rooms-and-guests');
 roomsAndGuests.innerHTML = 'Для ' + arrayAd[0].offer.guests + ' гостей в ' + arrayAd[0].offer.rooms + ' комнатах';
 
 var checkinAndCheckout = newElementBlock.querySelector('.lodge__checkin-time');
-  checkinAndCheckout.innerHTML = 'Заезд после ' + arrayAd[0].offer.checkin + ', выезд до ' + arrayAd[0].offer.checkout;
+checkinAndCheckout.innerHTML = 'Заезд после ' + arrayAd[0].offer.checkin + ', выезд до ' + arrayAd[0].offer.checkout;
 
 var features = newElementBlock.querySelector('.lodge__features');
 
 for (var i = 0; i < arrayAd[0].offer.features.length; i++) {
   var featuresElement = document.createElement('span');
   featuresElement.className = 'feature__image feature__image--' + arrayAd[0].offer.features[i];
-  console.log(featuresElement);
 
   features.appendChild(featuresElement);
 }
 
 var description = newElementBlock.querySelector('.lodge__description');
-  description.innerHTML = arrayAd[0].offer.description;
+description.innerHTML = arrayAd[0].offer.description;
 
 var avatar = document.querySelector('.dialog__title img');
 avatar.src = arrayAd[0].autor.avatar;
