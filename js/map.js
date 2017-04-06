@@ -30,7 +30,7 @@ var advertisements = [];
 
 var featuresRandomArray = [];
 
-for (var l = 0; i < featuresArray.length; l++) {
+for (var l = 0; l < featuresArray.length; l++) {
   if (Math.random() > 0.5) {
     featuresRandomArray.push(featuresArray[l]);
   }
