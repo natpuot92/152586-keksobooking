@@ -5,7 +5,7 @@ function getRandomDigit(min, max) {
 }
 
 function getArrayRandomNumber(array) {
-  var randomNumberArray = Math.floor(Math.random() * array.length);
+  var randomNumberArray = getRandomDigit(0, array.length - 1);
   return array[randomNumberArray];
 }
 
