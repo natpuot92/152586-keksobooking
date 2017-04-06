@@ -30,9 +30,9 @@ var advertisements = [];
 
 var featuresRandomArray = [];
 
-for (var i = 0; i < featuresArray.length; i++) {
+for (var l = 0; i < featuresArray.length; l++) {
   if (Math.random() > 0.5) {
-    featuresRandomArray.push(featuresArray[i]);
+    featuresRandomArray.push(featuresArray[l]);
   }
 }
 
@@ -69,12 +69,12 @@ var parentPinMap = document.querySelector('.tokyo__pin-map');
 
 var fragment = document.createDocumentFragment();
 
-for (var i = 0; i < titlesArray.length; i++) {
+for (var j = 0; j < titlesArray.length; j++) {
   var childDiv = document.createElement('div');
   childDiv.className = 'pin';
-  childDiv.style.left = advertisements[i].location.X + 'px';
-  childDiv.style.top = advertisements[i].location.Y + 'px';
-  childDiv.innerHTML = '<img src=" ' + advertisements[i].autor.avatar + ' " class="rounded" width="40" height="40"></div>';
+  childDiv.style.left = advertisements[j].location.X + 'px';
+  childDiv.style.top = advertisements[j].location.Y + 'px';
+  childDiv.innerHTML = '<img src=" ' + advertisements[j].autor.avatar + ' " class="rounded" width="40" height="40"></div>';
 
   fragment.appendChild(childDiv);
 }
@@ -104,18 +104,15 @@ address.textContent = advertisements[0].offer.address;
 var price = newElementBlock.querySelector('.lodge__price');
 price.innerHTML = advertisements[0].offer.price + '&#x20bd;/ + ночь';
 
+var offerTypes = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
 var type = newElementBlock.querySelector('.lodge__type');
-if (advertisements[0].offer.type === 'flat') {
-  type.innerHTML = 'Квартира';
-} else {
-  if (advertisements[0].offer.type === 'house') {
-    type.innerHTML = 'Дом';
-  } else {
-    if (advertisements[0].offer.type === 'bungalo') {
-      type.innerHTML = 'Бунгало';
-    }
-  }
-}
+var randomTypeName = advertisements[0].offer.type;
+type.innerHTML = offerTypes[randomTypeName];
+
 
 var roomsAndGuests = newElementBlock.querySelector('.lodge__rooms-and-guests');
 roomsAndGuests.innerHTML = 'Для ' + advertisements[0].offer.guests + ' гостей в ' + advertisements[0].offer.rooms + ' комнатах';
@@ -125,9 +122,9 @@ checkinAndCheckout.innerHTML = 'Заезд после ' + advertisements[0].offe
 
 var features = newElementBlock.querySelector('.lodge__features');
 
-for (var i = 0; i < advertisements[0].offer.features.length; i++) {
+for (var k = 0; k < advertisements[0].offer.features.length; k++) {
   var featuresElement = document.createElement('span');
-  featuresElement.className = 'feature__image feature__image--' + advertisements[0].offer.features[i];
+  featuresElement.className = 'feature__image feature__image--' + advertisements[0].offer.features[k];
 
   features.appendChild(featuresElement);
 }
