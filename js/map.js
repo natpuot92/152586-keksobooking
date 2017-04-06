@@ -102,7 +102,7 @@ var address = newElementBlock.querySelector('.lodge__address');
 address.textContent = advertisements[0].offer.address;
 
 var price = newElementBlock.querySelector('.lodge__price');
-price.innerHTML = advertisements[0].offer.price + '&#x20bd;/ + ночь';
+price.innerHTML = advertisements[0].offer.price + ' &#x20bd;/' + 'ночь';
 
 var offerTypes = {
   flat: 'Квартира',
