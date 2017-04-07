@@ -135,3 +135,28 @@ description.innerHTML = advertisements[0].offer.description;
 var avatar = document.querySelector('.dialog__title img');
 avatar.src = advertisements[0].autor.avatar;
 
+var tokio = document.querySelector('.tokyo');
+var pinActive = null;
+tokio.addEventListener('click', function(evt) {debugger;
+  if (pinActive){
+  var pinActive = document.querySelectorAll('.pin--active');
+  console.log(pinAcrive);
+    }
+  var target = evt.target;
+  while(target != tokio) {
+   if (target.className === 'pin') {
+  target.classList.add('pin--active');
+    var pinActive = target;
+   }
+   target = target.parentNode;
+}
+})
+
+
+
+/* При нажатии на любой из элементов .pin ему должен добавляться класс pin--active и должен показываться элемент .dialog
+Если до этого у другого элемента существовал класс pin--active, то у этого элемента класс нужно убрать
+При нажатии на элемент .dialog__close карточка объявления должна скрываться. При этом должен деактивироваться элемент .pin, который был помечен как активный
+
+
+*/
