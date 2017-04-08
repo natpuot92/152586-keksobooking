@@ -28,18 +28,19 @@ var featuresArray = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'con
 
 var advertisements = [];
 
-var featuresRandomArray = [];
-
-for (var l = 0; l < featuresArray.length; l++) {
-  if (Math.random() > 0.5) {
-    featuresRandomArray.push(featuresArray[l]);
-  }
-}
 
 for (var i = 0; i < titlesArray.length; i++) {
 
   var addressX = getRandomDigit(300, 900);
   var addressY = getRandomDigit(100, 500);
+
+  var featuresRandomArray = [];
+
+  for (var l = 0; l < featuresArray.length; l++) {
+    if (Math.random() > 0.5) {
+      featuresRandomArray.push(featuresArray[l]);
+    }
+  }
 
   advertisements.push({
     'autor': {
@@ -74,6 +75,8 @@ for (var j = 0; j < titlesArray.length; j++) {
   childDiv.className = 'pin';
   childDiv.style.left = advertisements[j].location.X + 'px';
   childDiv.style.top = advertisements[j].location.Y + 'px';
+  childDiv.setAttribute('data-set', j + '');
+  childDiv.setAttribute('tabindex', '0');
   childDiv.innerHTML = '<img src=" ' + advertisements[j].autor.avatar + ' " class="rounded" width="40" height="40"></div>';
 
   fragment.appendChild(childDiv);
@@ -135,28 +138,93 @@ description.innerHTML = advertisements[0].offer.description;
 var avatar = document.querySelector('.dialog__title img');
 avatar.src = advertisements[0].autor.avatar;
 
-var tokio = document.querySelector('.tokyo');
-var pinActive = null;
-tokio.addEventListener('click', function(evt) {debugger;
-  if (pinActive){
-  var pinActive = document.querySelectorAll('.pin--active');
-  console.log(pinAcrive);
-    }
-  var target = evt.target;
-  while(target != tokio) {
-   if (target.className === 'pin') {
-  target.classList.add('pin--active');
-    var pinActive = target;
-   }
-   target = target.parentNode;
+function deleteActivePin() {
+  var pinActive = document.querySelector('.pin--active');
+  if (pinActive) {
+    pinActive.classList.remove('pin--active');
+  }
 }
-})
+
+function setActivePin(pinNode) {
+  pinNode.classList.add('pin--active');
+}
+
+var dialogOpen = function (evt) {
+  deleteActivePin();
+  setActivePin(evt.currentTarget);
+
+  document.getElementById('offer-dialog').style.display = 'block';
+
+  var activePin = evt.currentTarget;
 
 
+  title.textContent = advertisements[activePin.getAttribute('data-set')].offer.title;
 
-/* При нажатии на любой из элементов .pin ему должен добавляться класс pin--active и должен показываться элемент .dialog
-Если до этого у другого элемента существовал класс pin--active, то у этого элемента класс нужно убрать
-При нажатии на элемент .dialog__close карточка объявления должна скрываться. При этом должен деактивироваться элемент .pin, который был помечен как активный
+  address.textContent = advertisements[activePin.getAttribute('data-set')].offer.address;
+
+  price.innerHTML = advertisements[activePin.getAttribute('data-set')].offer.price + ' &#x20bd;/' + 'ночь';
+
+  type.innerHTML = offerTypes[advertisements[activePin.getAttribute('data-set')].offer.type];
+
+  roomsAndGuests.innerHTML = 'Для ' + advertisements[activePin.getAttribute('data-set')].offer.guests + ' гостей в ' + advertisements[activePin.getAttribute('data-set')].offer.rooms + ' комнатах';
+
+  checkinAndCheckout.innerHTML = 'Заезд после ' + advertisements[activePin.getAttribute('data-set')].offer.checkin + ', выезд до ' + advertisements[activePin.getAttribute('data-set')].offer.checkout;
+
+  description.innerHTML = advertisements[activePin.getAttribute('data-set')].offer.description;
+
+  var featuresParent = document.querySelector('.lodge__features');
+  var featuresChild = document.querySelectorAll('.lodge__features .feature__image');
+
+  for (var childIndex = 0; childIndex < featuresChild.length; childIndex++) {
+    featuresParent.removeChild(featuresChild[childIndex]);
+  }
+
+  for (var featuresIndex = 0; featuresIndex < advertisements[activePin.getAttribute('data-set')].offer.features.length; featuresIndex++) {
+    var featuresElement = document.createElement('span');
+    featuresElement.className = 'feature__image feature__image--' + advertisements[activePin.getAttribute('data-set')].offer.features[featuresIndex];
+
+    features.appendChild(featuresElement);
+  }
+
+  description.innerHTML = advertisements[activePin.getAttribute('data-set')].offer.description;
+
+  avatar.src = advertisements[activePin.getAttribute('data-set')].autor.avatar;
+};
+
+var pins = document.querySelectorAll('.pin');
+for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
+  pins[pinIndex].addEventListener('click', function (evt) {
+    dialogOpen(evt);
+  });
+}
+
+for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
+  pins[pinIndex].addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      dialogOpen(evt);
+    }
+  }
+  ); }
 
 
-*/
+var buttonDialogClose = document.querySelector('.dialog__close');
+var dialogClose = function () {
+  document.getElementById('offer-dialog').style.display = 'none';
+  deleteActivePin();
+};
+
+buttonDialogClose.addEventListener('click', function () {
+  dialogClose();
+});
+
+buttonDialogClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    dialogClose();
+  }
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) {
+    dialogClose();
+  }
+});
