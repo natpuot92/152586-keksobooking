@@ -26,8 +26,13 @@ var checkoutsArray = ['12:00', '13:00', '14:00'];
 
 var featuresArray = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-var advertisements = [];
+var offerTypes = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
 
+var advertisements = [];
 
 for (var i = 0; i < titlesArray.length; i++) {
 
@@ -97,11 +102,26 @@ parent.appendChild(newElement);
 parent.replaceChild(newElement, dialogPanel);
 
 
-function getInformationFromaAvertisements(place) {
+function renderDialogInfo(place) {
+
+  var newElementBlock = document.querySelector('.dialog__panel');
+
+  var title = newElementBlock.querySelector('.lodge__title');
+  var address = newElementBlock.querySelector('.lodge__address');
+  var price = newElementBlock.querySelector('.lodge__price');
+
+  var type = newElementBlock.querySelector('.lodge__type');
+
+  var roomsAndGuests = newElementBlock.querySelector('.lodge__rooms-and-guests');
+  var checkinAndCheckout = newElementBlock.querySelector('.lodge__checkin-time');
+  var features = newElementBlock.querySelector('.lodge__features');
+
+  var description = newElementBlock.querySelector('.lodge__description');
+  var avatar = document.querySelector('.dialog__title img');
 
   title.textContent = place.offer.title;
   address.textContent = place.offer.address;
-  price.innerHTML = place.offer.price + ' &#x20bd;/' + 'ночь';
+  price.innerHTML = place.offer.price + ' &#x20bd;/ночь';
   type.innerHTML = offerTypes[place.offer.type];
   roomsAndGuests.innerHTML = 'Для ' + place.offer.guests + ' гостей в ' + place.offer.rooms + ' комнатах';
   checkinAndCheckout.innerHTML = 'Заезд после ' + place.offer.checkin + ', выезд до ' + place.offer.checkout;
@@ -125,30 +145,17 @@ function getInformationFromaAvertisements(place) {
   avatar.src = place.autor.avatar;
 }
 
+//
 
-var newElementBlock = document.querySelector('.dialog__panel');
 
-var title = newElementBlock.querySelector('.lodge__title');
-var address = newElementBlock.querySelector('.lodge__address');
-var price = newElementBlock.querySelector('.lodge__price');
-var offerTypes = {
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};
-var type = newElementBlock.querySelector('.lodge__type');
-
-var roomsAndGuests = newElementBlock.querySelector('.lodge__rooms-and-guests');
-var checkinAndCheckout = newElementBlock.querySelector('.lodge__checkin-time');
-var features = newElementBlock.querySelector('.lodge__features');
-
-var description = newElementBlock.querySelector('.lodge__description');
-var avatar = document.querySelector('.dialog__title img');
-
-getInformationFromaAvertisements(advertisements[0]);
+renderDialogInfo(advertisements[0]);
 
 
 var PIN_ACTIVE_CLASS_NAME = 'pin--active';
+
+var firstPin = document.querySelector('.pin:nth-child(2)');
+firstPin.classList.add(PIN_ACTIVE_CLASS_NAME);
+
 
 function deleteActivePin() {
   var pinActive = document.querySelector('.' + PIN_ACTIVE_CLASS_NAME);
@@ -168,51 +175,58 @@ function showCard(evt) {
 
   var activePin = evt.currentTarget;
 
-  getInformationFromaAvertisements(advertisements[activePin.getAttribute('data-set')]);
+  renderDialogInfo(advertisements[activePin.getAttribute('data-set')]);
 
 }
 
-var dialogOpen = function (evt) {
+var dialogOpenHandler = function (evt) {
   deleteActivePin();
   showCard(evt);
   setActivePin(evt.currentTarget);
 
 };
 
-var pins = document.querySelectorAll('.pin');
+var KEY_CODE_ENTER = 13;
+
+var KEY_CODE_ESC = 27;
+
+function isEnterPressed (Handler) {
+  if (evt.keyCode === KEY_CODE_ENTER) {
+    Handler;
+  }
+}
+
+var pins = document.querySelectorAll('.pin:not(.pin__main)');
+console.log(pins);
 for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
   pins[pinIndex].addEventListener('click', function (evt) {
-    dialogOpen(evt);
+    dialogOpenHandler(evt);
+  });
+  pins[pinIndex].addEventListener('keydown', function (evt) {
+    isEnterPressed(dialogOpenHandler(evt));
+
+
   });
 }
 
-for (var pinIndex2 = 0; pinIndex2 < pins.length; pinIndex2++) {
-  pins[pinIndex2].addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      dialogOpen(evt);
-    }
-  }
-  ); }
-
 
 var buttonDialogClose = document.querySelector('.dialog__close');
-var dialogClose = function () {
+
+var dialogCloseHandler = function () {
   offerDialog.style.display = 'none';
   deleteActivePin();
 };
 
-buttonDialogClose.addEventListener('click', function () {
-  dialogClose();
-});
+buttonDialogClose.addEventListener('click', dialogCloseHandler);
 
 buttonDialogClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
-    dialogClose();
+  if (evt.keyCode === KEY_CODE_ENTER) {
+    dialogCloseHandler();
   }
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27) {
-    dialogClose();
+  if (evt.keyCode === KEY_CODE_ESC) {
+    dialogCloseHandler();
   }
 });
