@@ -39,13 +39,11 @@ for (var i = 0; i < titlesArray.length; i++) {
   var addressX = getRandomDigit(300, 900);
   var addressY = getRandomDigit(100, 500);
 
-  var featuresRandomArray = [];
-
-  for (var l = 0; l < featuresArray.length; l++) {
+  var featuresRandomArray = featuresArray.filter(function (num) {
     if (Math.random() > 0.5) {
-      featuresRandomArray.push(featuresArray[l]);
+      return num;
     }
-  }
+  });
 
   advertisements.push({
     'autor': {
@@ -128,11 +126,11 @@ function renderDialogInfo(place) {
   description.innerHTML = place.offer.description;
 
   var featuresParent = document.querySelector('.lodge__features');
-  var featuresChild = document.querySelectorAll('.lodge__features .feature__image');
 
-  for (var childIndex = 0; childIndex < featuresChild.length; childIndex++) {
-    featuresParent.removeChild(featuresChild[childIndex]);
+  while (featuresParent.firstChild) {
+    featuresParent.removeChild(features.firstChild);
   }
+
 
   for (var featuresIndex = 0; featuresIndex < place.offer.features.length; featuresIndex++) {
     var featuresElement = document.createElement('span');
@@ -145,11 +143,7 @@ function renderDialogInfo(place) {
   avatar.src = place.autor.avatar;
 }
 
-//
-
-
 renderDialogInfo(advertisements[0]);
-
 
 var PIN_ACTIVE_CLASS_NAME = 'pin--active';
 
@@ -171,7 +165,7 @@ function setActivePin(pinNode) {
 var offerDialog = document.getElementById('offer-dialog');
 
 function showCard(evt) {
-  offerDialog.style.display = 'block';
+  offerDialog.classList.remove('hidden');
 
   var activePin = evt.currentTarget;
 
@@ -190,22 +184,24 @@ var KEY_CODE_ENTER = 13;
 
 var KEY_CODE_ESC = 27;
 
-function isEnterPressed (Handler) {
-  if (evt.keyCode === KEY_CODE_ENTER) {
-    Handler;
-  }
+function isEnterPressed(evt) {
+  return evt.keyCode === KEY_CODE_ENTER;
+}
+
+function isEscPressed(evt) {
+  return evt.keyCode === KEY_CODE_ESC;
 }
 
 var pins = document.querySelectorAll('.pin:not(.pin__main)');
-console.log(pins);
+
 for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
   pins[pinIndex].addEventListener('click', function (evt) {
     dialogOpenHandler(evt);
   });
   pins[pinIndex].addEventListener('keydown', function (evt) {
-    isEnterPressed(dialogOpenHandler(evt));
-
-
+    if (evt.keyCode === KEY_CODE_ENTER) {
+      dialogOpenHandler(evt);
+    }
   });
 }
 
@@ -213,20 +209,21 @@ for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
 var buttonDialogClose = document.querySelector('.dialog__close');
 
 var dialogCloseHandler = function () {
-  offerDialog.style.display = 'none';
+  offerDialog.classList.add('hidden');
   deleteActivePin();
 };
 
 buttonDialogClose.addEventListener('click', dialogCloseHandler);
 
 buttonDialogClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === KEY_CODE_ENTER) {
+  if (isEnterPressed(evt)) {
     dialogCloseHandler();
   }
+
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === KEY_CODE_ESC) {
+  if (isEscPressed(evt)) {
     dialogCloseHandler();
   }
 });
