@@ -39,10 +39,10 @@ for (var i = 0; i < titlesArray.length; i++) {
   var addressX = getRandomDigit(300, 900);
   var addressY = getRandomDigit(100, 500);
 
-  var featuresRandomArray = featuresArray.filter(function (num) {
-    if (Math.random() > 0.5) {
-      return num;
-    }
+  var featuresRandomArray = featuresArray.filter(function () {
+    return Math.random() > 0.5;
+
+
   });
 
   advertisements.push({
@@ -125,12 +125,8 @@ function renderDialogInfo(place) {
   checkinAndCheckout.innerHTML = 'Заезд после ' + place.offer.checkin + ', выезд до ' + place.offer.checkout;
   description.innerHTML = place.offer.description;
 
-  var featuresParent = document.querySelector('.lodge__features');
 
-  while (featuresParent.firstChild) {
-    featuresParent.removeChild(features.firstChild);
-  }
-
+  features.innerHTML = '';
 
   for (var featuresIndex = 0; featuresIndex < place.offer.features.length; featuresIndex++) {
     var featuresElement = document.createElement('span');
@@ -147,8 +143,8 @@ renderDialogInfo(advertisements[0]);
 
 var PIN_ACTIVE_CLASS_NAME = 'pin--active';
 
-var firstPin = document.querySelector('.pin:nth-child(2)');
-firstPin.classList.add(PIN_ACTIVE_CLASS_NAME);
+var firstPin = document.querySelector('.pin[data-set = "0"]');
+setActivePin(firstPin);
 
 
 function deleteActivePin() {
@@ -164,19 +160,17 @@ function setActivePin(pinNode) {
 
 var offerDialog = document.getElementById('offer-dialog');
 
-function showCard(evt) {
+function showCard(activePin) {
   offerDialog.classList.remove('hidden');
 
-  var activePin = evt.currentTarget;
-
   renderDialogInfo(advertisements[activePin.getAttribute('data-set')]);
-
 }
 
 var dialogOpenHandler = function (evt) {
+  var clickedPin = evt.currentTarget;
   deleteActivePin();
-  showCard(evt);
-  setActivePin(evt.currentTarget);
+  showCard(clickedPin);
+  setActivePin(clickedPin);
 
 };
 
@@ -199,7 +193,7 @@ for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
     dialogOpenHandler(evt);
   });
   pins[pinIndex].addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEY_CODE_ENTER) {
+    if (isEnterPressed(evt)) {
       dialogOpenHandler(evt);
     }
   });
