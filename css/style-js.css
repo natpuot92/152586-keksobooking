@@ -1,3 +1,7 @@
 .hidden {
   display: none;
 }
+
+.invalid {
+  border: 2px solid red !important;
+}
