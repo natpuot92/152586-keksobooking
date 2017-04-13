@@ -257,6 +257,8 @@ var price = document.getElementById('price');
 price.value = 1000;
 type.addEventListener('change', function () {
   price.value = typesHouse[type.value];
+  price.removeAttribute('min');
+  price.setAttribute('min', typesHouse[type.value]);
 });
 
 // Объект кол-во комнат
