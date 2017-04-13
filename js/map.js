@@ -218,100 +218,59 @@ document.addEventListener('keydown', function (evt) {
 });
 
 
+//  Валидация "Заголовок"
+var titleForm = document.getElementById('title');
+titleForm.setAttribute('required', '');
+titleForm.setAttribute('maxlength', '100');
+titleForm.setAttribute('minlength', '30');
 
+//  Валидация "Цена за ночь"
+var formPrice = document.getElementById('price');
+formPrice.setAttribute('required', '');
+formPrice.setAttribute('min', '1000');
+formPrice.setAttribute('max', '1000000');
 
+var time = document.querySelector('#time');
+var timeOut = document.querySelector('#timeout');
+time.value = 'time-12';
 
+//  Функция синхронизации время заезда
+time.onchange = function () {
+  timeOut.value = time.value;
+};
 
-var form = document.querySelector('.notice__form');
+//  Функция синхронизации время выезда
+timeOut.onchange = function () {
+  time.value = timeOut.value;
+};
 
-form.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-  var titleForm = document.getElementById('title');
-  function titleFormValid() {
-    if (titleForm.value.length < 3) {
-      titleForm.classList.add('invalid');
-      return false;
-    } else {
-      if (titleForm.value.length > 100) {
-        titleForm.classList.add('invalid');
-        return false;
-      } else {
-        titleForm.classList.remove('invalid');
-        return true;
-      }
-    }
-  }
-
-  function formPriceValid() {
-    var formPrice = document.getElementById('price');
-    if (formPrice.value < 1000) {
-      formPrice.classList.add('invalid');
-      return false;
-    } else {
-      if (formPrice.value > 1000000) {
-        formPrice.classList.add('invalid');
-        return false;
-      } else {
-        formPrice.classList.remove('invalid');
-        return true;
-      }
-    }
-  }
-
-  if (!titleFormValid()) {
-    return;
-  } else {
-    if (formPriceValid()) {
-      form.submit();
-    }
-  }
-});
-
-
-var times = document.querySelectorAll('#time, #timeout');
-
-for (var selectIndex = 0; selectIndex < times.length; selectIndex++) {
-  times[selectIndex].addEventListener('change', function (evt) {
-
-    var time = document.getElementById('time');
-    var timeOut = document.getElementById('timeout');
-
-    if (evt.currentTarget === times[0]) {
-      timeOut.selectedIndex = time.selectedIndex;
-    } else {
-      time.selectedIndex = timeOut.selectedIndex;
-    }
-  });
-}
-
+// Объект типов жилья
+var typesHouse = {
+  flat: 1000,
+  shack: 0,
+  palace: 10000
+};
 
 var type = document.getElementById('type');
 var price = document.getElementById('price');
+// Функция синхронизации цены и жилья
 price.value = 1000;
-
-
 type.addEventListener('change', function () {
-  if (type.value === 'Квартира') {
-    price.value = 1000;
-  } else {
-    if (type.value === 'Лачуга') {
-      price.value = 0;
-    } else {
-      if (type.value === 'Дворец') {
-        price.value = 10000;
-      }
-    }
-  }
+  price.value = typesHouse[type.value];
 });
+
+// Объект кол-во комнат
+var rooms = {
+  '1-rooms': 'not-guests',
+  '2-rooms': '3-guests',
+  '100-rooms': '3-guests'
+};
 
 var roomNumber = document.getElementById('room_number');
 var capacity = document.getElementById('capacity');
-capacity.selectedIndex = 1;
 
-roomNumber.addEventListener('change', function () {
-  if (roomNumber.selectedIndex === 0) {
-    capacity.selectedIndex = 1;
-  } else {
-    capacity.selectedIndex = 0;
-  }
-});
+//  Функция синхронизации  кол-ва комнат и гостей
+capacity.value = 'not-guests';
+roomNumber.onchange = function () {
+  capacity.value = rooms[roomNumber.value];
+};
