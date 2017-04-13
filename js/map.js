@@ -226,13 +226,12 @@ titleForm.setAttribute('minlength', '30');
 
 //  Валидация "Цена за ночь"
 var formPrice = document.getElementById('price');
-formPrice.setAttribute('required', '');
+formPrice.setAttribute('required', true);
 formPrice.setAttribute('min', '1000');
 formPrice.setAttribute('max', '1000000');
 
 var time = document.querySelector('#time');
 var timeOut = document.querySelector('#timeout');
-time.value = 'time-12';
 
 //  Функция синхронизации время заезда
 time.onchange = function () {
@@ -245,7 +244,7 @@ timeOut.onchange = function () {
 };
 
 // Объект типов жилья
-var typesHouse = {
+var typeHousesMinPrice = {
   flat: 1000,
   shack: 0,
   palace: 10000
@@ -254,11 +253,9 @@ var typesHouse = {
 var type = document.getElementById('type');
 var price = document.getElementById('price');
 // Функция синхронизации цены и жилья
-price.value = 1000;
+
 type.addEventListener('change', function () {
-  price.value = typesHouse[type.value];
-  price.removeAttribute('min');
-  price.setAttribute('min', typesHouse[type.value]);
+  price.setAttribute('min', typeHousesMinPrice[type.value]);
 });
 
 // Объект кол-во комнат
@@ -276,3 +273,14 @@ capacity.value = 'not-guests';
 roomNumber.onchange = function () {
   capacity.value = rooms[roomNumber.value];
 };
+
+capacity.onchange = function () {
+  for (var key in rooms) {
+    if (rooms[key] === capacity.value) {
+      roomNumber.value = key;
+      return;
+    }
+  }
+};
+
+
