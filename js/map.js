@@ -41,8 +41,6 @@ for (var i = 0; i < titlesArray.length; i++) {
 
   var featuresRandomArray = featuresArray.filter(function () {
     return Math.random() > 0.5;
-
-
   });
 
   advertisements.push({
@@ -125,7 +123,6 @@ function renderDialogInfo(place) {
   checkinAndCheckout.innerHTML = 'Заезд после ' + place.offer.checkin + ', выезд до ' + place.offer.checkout;
   description.innerHTML = place.offer.description;
 
-
   features.innerHTML = '';
 
   for (var featuresIndex = 0; featuresIndex < place.offer.features.length; featuresIndex++) {
@@ -139,13 +136,13 @@ function renderDialogInfo(place) {
   avatar.src = place.autor.avatar;
 }
 
+
 renderDialogInfo(advertisements[0]);
 
 var PIN_ACTIVE_CLASS_NAME = 'pin--active';
 
 var firstPin = document.querySelector('.pin[data-set = "0"]');
 setActivePin(firstPin);
-
 
 function deleteActivePin() {
   var pinActive = document.querySelector('.' + PIN_ACTIVE_CLASS_NAME);
@@ -199,7 +196,6 @@ for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
   });
 }
 
-
 var buttonDialogClose = document.querySelector('.dialog__close');
 
 var dialogCloseHandler = function () {
@@ -213,7 +209,6 @@ buttonDialogClose.addEventListener('keydown', function (evt) {
   if (isEnterPressed(evt)) {
     dialogCloseHandler();
   }
-
 });
 
 document.addEventListener('keydown', function (evt) {
@@ -221,3 +216,71 @@ document.addEventListener('keydown', function (evt) {
     dialogCloseHandler();
   }
 });
+
+
+//  Валидация "Заголовок"
+var titleForm = document.getElementById('title');
+titleForm.setAttribute('required', '');
+titleForm.setAttribute('maxlength', '100');
+titleForm.setAttribute('minlength', '30');
+
+//  Валидация "Цена за ночь"
+var formPrice = document.getElementById('price');
+formPrice.setAttribute('required', true);
+formPrice.setAttribute('min', '1000');
+formPrice.setAttribute('max', '1000000');
+
+var time = document.querySelector('#time');
+var timeOut = document.querySelector('#timeout');
+
+//  Функция синхронизации время заезда
+time.onchange = function () {
+  timeOut.value = time.value;
+};
+
+//  Функция синхронизации время выезда
+timeOut.onchange = function () {
+  time.value = timeOut.value;
+};
+
+// Объект типов жилья
+var typeHousesMinPrice = {
+  flat: 1000,
+  shack: 0,
+  palace: 10000
+};
+
+var type = document.getElementById('type');
+var price = document.getElementById('price');
+// Функция синхронизации цены и жилья
+
+type.addEventListener('change', function () {
+  price.setAttribute('min', typeHousesMinPrice[type.value]);
+});
+
+// Объект кол-во комнат
+var rooms = {
+  '1-rooms': 'not-guests',
+  '2-rooms': '3-guests',
+  '100-rooms': '3-guests'
+};
+
+var roomNumber = document.getElementById('room_number');
+var capacity = document.getElementById('capacity');
+
+//  Функция синхронизации  кол-ва комнат и гостей
+capacity.value = 'not-guests';
+roomNumber.onchange = function () {
+  capacity.value = rooms[roomNumber.value];
+};
+
+capacity.onchange = function () {
+  for (var key in rooms) {
+    if (rooms[key] === capacity.value) {
+      roomNumber.value = key;
+      return;
+    }
+  }
+};
+
+
