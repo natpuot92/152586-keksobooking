@@ -1,6 +1,5 @@
 'use strict';
 
-
 var titlesArray = ['Большая уютная квартира',
   'Маленькая неуютная квартира',
   'Огромный прекрасный дворец',
@@ -10,7 +9,7 @@ var titlesArray = ['Большая уютная квартира',
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'];
 
-var createsTheData = function () {
+window.createsTheData = function () {
 
 function getRandomDigit(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -69,6 +68,8 @@ for (var i = 0; i < titlesArray.length; i++) {
     }
   });
 }
+  console.log(advertisements)
 return advertisements;
 }
+
 
