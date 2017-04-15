@@ -9,7 +9,13 @@ var titlesArray = ['Большая уютная квартира',
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'];
 
-window.createsTheData = function () {
+var offerTypes = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+
+window.createsTheData = (function () {
 
 function getRandomDigit(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -28,11 +34,8 @@ var checkoutsArray = ['12:00', '13:00', '14:00'];
 
 var featuresArray = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-var offerTypes = {
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};
+
+
 
 var advertisements = [];
 
@@ -67,9 +70,10 @@ for (var i = 0; i < titlesArray.length; i++) {
       'Y': addressY
     }
   });
+
 }
-  console.log(advertisements)
+
 return advertisements;
-}
+})();
 
 
