@@ -31,7 +31,7 @@
   var description = newElementBlock.querySelector('.lodge__description');
   var avatar = document.querySelector('.dialog__title img');
 
-  window.renderCard = (function (place) {
+  window.renderCard = function (place) {
 
     title.textContent = place.offer.title;
     address.textContent = place.offer.address;
@@ -51,6 +51,6 @@
 
     description.innerHTML = place.offer.description;
     avatar.src = place.autor.avatar;
-  });
+  };
 })();
 

@@ -1,5 +1,5 @@
 'use strict';
-window.utils = (function () {
+(function () {
   var getRandomDigit = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
@@ -20,7 +20,7 @@ window.utils = (function () {
   var isEscPressed = function (evt) {
     return evt.keyCode === KEY_CODE_ESC;
   };
-  return {
+  window.utils = {
     isEnterPressed: isEnterPressed,
     isEscPressed: isEscPressed,
     getArrayRandomNumber: getArrayRandomNumber,
