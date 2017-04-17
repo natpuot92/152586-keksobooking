@@ -1,49 +1,31 @@
 'use strict';
 
-renderDialogInfo(window.createsTheData[0]);
+window.renderCard(window.advertisements[0]);
 
-managementActivePin.setActivePin(document.querySelector('.pin[data-set = "0"]'));
+window.managementActivePin.setActivePin(document.querySelector('.pin[data-set = "0"]'));
 
 window.managementDialogHandler = (function () {
   var offerDialog = document.getElementById('offer-dialog');
 
   function showCard(activePin) {
     offerDialog.classList.remove('hidden');
-    renderDialogInfo(window.createsTheData[activePin.getAttribute('data-set')]);
+    window.renderCard(window.advertisements[activePin.getAttribute('data-set')]);
   }
 
   var dialogOpenHandler = function (evt) {
     var clickedPin = evt.currentTarget;
-    managementActivePin.deleteActivePin();
+    window.managementActivePin.deleteActivePin();
     showCard(clickedPin);
-    managementActivePin.setActivePin(clickedPin);
+    window.managementActivePin.setActivePin(clickedPin);
   };
 
   var dialogCloseHandler = function () {
     offerDialog.classList.add('hidden');
-    managementActivePin.deleteActivePin();
+    window.managementActivePin.deleteActivePin();
   };
   return {
     dialogOpenHandler: dialogOpenHandler,
     dialogCloseHandler: dialogCloseHandler
-  };
-})();
-
-window.managementKeyboard = (function () {
-  var KEY_CODE_ENTER = 13;
-
-  var KEY_CODE_ESC = 27;
-
-  var isEnterPressed = function (evt) {
-    return evt.keyCode === KEY_CODE_ENTER;
-  };
-
-  var isEscPressed = function (evt) {
-    return evt.keyCode === KEY_CODE_ESC;
-  };
-  return {
-    isEnterPressed: isEnterPressed,
-    isEscPressed: isEscPressed
   };
 })();
 
@@ -52,11 +34,11 @@ window.managementKeyboard = (function () {
 
   for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
     pins[pinIndex].addEventListener('click', function (evt) {
-      managementDialogHandler.dialogOpenHandler(evt);
+      window.managementDialogHandler.dialogOpenHandler(evt);
     });
     pins[pinIndex].addEventListener('keydown', function (evt) {
-      if (managementKeyboard.isEnterPressed(evt)) {
-        managementDialogHandler.dialogOpenHandler(evt);
+      if (window.managementKeyboard.isEnterPressed(evt)) {
+        window.managementDialogHandler.dialogOpenHandler(evt);
       }
     });
   }
@@ -64,16 +46,16 @@ window.managementKeyboard = (function () {
 
 var buttonDialogClose = document.querySelector('.dialog__close');
 
-buttonDialogClose.addEventListener('click', managementDialogHandler.dialogCloseHandler);
+buttonDialogClose.addEventListener('click', window.managementDialogHandler.dialogCloseHandler);
 
 buttonDialogClose.addEventListener('keydown', function (evt) {
-  if (managementKeyboard.isEnterPressed(evt)) {
-    managementDialogHandler.dialogCloseHandler();
+  if (window.managementKeyboard.isEnterPressed(evt)) {
+    window.managementDialogHandler.dialogCloseHandler();
   }
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (managementKeyboard.isEscPressed(evt)) {
-    managementDialogHandler.dialogCloseHandler();
+  if (window.managementKeyboard.isEscPressed(evt)) {
+    window.managementDialogHandler.dialogCloseHandler();
   }
 });

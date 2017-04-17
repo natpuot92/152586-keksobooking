@@ -2,21 +2,18 @@
 
 //  Валидация "Заголовок"
 (function () {
+
   var titleForm = document.getElementById('title');
   titleForm.setAttribute('required', '');
   titleForm.setAttribute('maxlength', '100');
   titleForm.setAttribute('minlength', '30');
-})();
 
 //  Валидация "Цена за ночь"
-(function () {
   var formPrice = document.getElementById('price');
   formPrice.setAttribute('required', true);
   formPrice.setAttribute('min', '1000');
   formPrice.setAttribute('max', '1000000');
-})();
 
-(function () {
   var time = document.querySelector('#time');
   var timeOut = document.querySelector('#timeout');
 
@@ -29,9 +26,8 @@
   timeOut.onchange = function () {
     time.value = timeOut.value;
   };
-})();
 
-(function () {
+
   // Объект типов жилья
   var typeHousesMinPrice = {
     flat: 1000,
@@ -46,9 +42,7 @@
   type.addEventListener('change', function () {
     price.setAttribute('min', typeHousesMinPrice[type.value]);
   });
-})();
 
-(function () {
   // Объект кол-во комнат
   var rooms = {
     '1-rooms': 'not-guests',

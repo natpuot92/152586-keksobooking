@@ -5,14 +5,14 @@ window.createPin = (function () {
 
   var fragment = document.createDocumentFragment();
 
-  for (var j = 0; j < titlesArray.length; j++) {
+  for (var j = 0; j < window.titlesArray.length; j++) {
     var childDiv = document.createElement('div');
     childDiv.className = 'pin';
-    childDiv.style.left = window.createsTheData[j].location.X + 'px';
-    childDiv.style.top = window.createsTheData[j].location.Y + 'px';
+    childDiv.style.left = window.advertisements[j].location.X + 'px';
+    childDiv.style.top = window.advertisements[j].location.Y + 'px';
     childDiv.setAttribute('data-set', j);
     childDiv.setAttribute('tabindex', '0');
-    childDiv.innerHTML = '<img src=" ' + window.createsTheData[j].autor.avatar + ' " class="rounded" width="40" height="40"></div>';
+    childDiv.innerHTML = '<img src=" ' + window.advertisements[j].autor.avatar + ' " class="rounded" width="40" height="40"></div>';
 
     fragment.appendChild(childDiv);
   }

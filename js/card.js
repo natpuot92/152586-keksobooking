@@ -1,6 +1,6 @@
 'use strict';
 
-window.ReplacementNewElement = (function () {
+(function () {
   var dialogPanel = document.querySelector('.dialog__panel');
 
   var parent = dialogPanel.parentElement;
@@ -14,27 +14,23 @@ window.ReplacementNewElement = (function () {
   parent.replaceChild(newElement, dialogPanel);
 })();
 
-window.renderDialogInfo = (function (place) {
+var offerTypes = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+var newElementBlock = document.querySelector('.dialog__panel');
+var title = newElementBlock.querySelector('.lodge__title');
+var address = newElementBlock.querySelector('.lodge__address');
+var price = newElementBlock.querySelector('.lodge__price');
+var type = newElementBlock.querySelector('.lodge__type');
+var roomsAndGuests = newElementBlock.querySelector('.lodge__rooms-and-guests');
+var checkinAndCheckout = newElementBlock.querySelector('.lodge__checkin-time');
+var features = newElementBlock.querySelector('.lodge__features');
+var description = newElementBlock.querySelector('.lodge__description');
+var avatar = document.querySelector('.dialog__title img');
 
-  var offerTypes = {
-    flat: 'Квартира',
-    house: 'Дом',
-    bungalo: 'Бунгало'
-  };
-  var newElementBlock = document.querySelector('.dialog__panel');
-
-  var title = newElementBlock.querySelector('.lodge__title');
-  var address = newElementBlock.querySelector('.lodge__address');
-  var price = newElementBlock.querySelector('.lodge__price');
-
-  var type = newElementBlock.querySelector('.lodge__type');
-
-  var roomsAndGuests = newElementBlock.querySelector('.lodge__rooms-and-guests');
-  var checkinAndCheckout = newElementBlock.querySelector('.lodge__checkin-time');
-  var features = newElementBlock.querySelector('.lodge__features');
-
-  var description = newElementBlock.querySelector('.lodge__description');
-  var avatar = document.querySelector('.dialog__title img');
+window.renderCard = (function (place) {
 
   title.textContent = place.offer.title;
   address.textContent = place.offer.address;
