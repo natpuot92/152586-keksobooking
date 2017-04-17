@@ -1,14 +1,14 @@
 'use strict';
-function getRandomDigit(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+window.utils = (function () {
+  var getRandomDigit = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
-function getArrayRandomNumber(array) {
-  var randomNumberArray = getRandomDigit(0, array.length - 1);
-  return array[randomNumberArray];
-}
+  var getArrayRandomNumber = function (array) {
+    var randomNumberArray = getRandomDigit(0, array.length - 1);
+    return array[randomNumberArray];
+  };
 
-window.managementKeyboard = (function () {
   var KEY_CODE_ENTER = 13;
 
   var KEY_CODE_ESC = 27;
@@ -22,6 +22,8 @@ window.managementKeyboard = (function () {
   };
   return {
     isEnterPressed: isEnterPressed,
-    isEscPressed: isEscPressed
+    isEscPressed: isEscPressed,
+    getArrayRandomNumber: getArrayRandomNumber,
+    getRandomDigit: getRandomDigit
   };
 })();

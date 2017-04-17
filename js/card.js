@@ -12,16 +12,15 @@
   parent.appendChild(newElement);
 
   parent.replaceChild(newElement, dialogPanel);
-})();
 
-var offerTypes = {
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};
-var newElementBlock = document.querySelector('.dialog__panel');
 
-(function () {
+  var offerTypes = {
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
+  var newElementBlock = document.querySelector('.dialog__panel');
+
   var title = newElementBlock.querySelector('.lodge__title');
   var address = newElementBlock.querySelector('.lodge__address');
   var price = newElementBlock.querySelector('.lodge__price');

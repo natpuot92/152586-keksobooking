@@ -1,8 +1,7 @@
 'use strict';
 
-//  Валидация "Заголовок"
 (function () {
-
+  //  Валидация "Заголовок"
   var titleForm = document.getElementById('title');
   titleForm.setAttribute('required', '');
   titleForm.setAttribute('maxlength', '100');
