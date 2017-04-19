@@ -54,71 +54,68 @@
       managementDialogHandler.dialogCloseHandler();
     }
   });
-})();
 
-// нахожу форму "адрес" и добавляю ему атрибут disabled
-var addressForm = document.getElementById('address');
-addressForm.setAttribute('disabled', '');
+// нахожу форму "адрес" и добавляю ему атрибут readonly
+  var addressForm = document.getElementById('address');
+  addressForm.setAttribute('readonly', '');
 
-// нахожу пин и описываю событие "клик"
-var pinMain = document.querySelector('.pin__main');
+  // Функция вичисления координат, куда указывает метка острым концом
+  function getPinCoordinates(pinName) {
+    var pinWidth = Math.round(pinName.getBoundingClientRect().right - pinName.getBoundingClientRect().left);
+    var pinHeight = Math.round(pinName.getBoundingClientRect().bottom - pinName.getBoundingClientRect().top);
+    var coordinatesLeft = pinName.offsetLeft + pinWidth / 2;
+    var coordinatesTop = pinName.offsetTop + pinHeight;
+    return {
+      coordinatesLeft: coordinatesLeft,
+      coordinatesTop: coordinatesTop
+    };
+  }
 
-pinMain.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-  pinMain.style.zIndex = 2;
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
+  // нахожу пин и описываю событие "кнопка мыши вниз"
+  var pinMain = document.querySelector('.pin__main');
 
-  // функция описывающая поведение при передвижении указателя
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
+  pinMain.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    pinMain.classList.add('z-index');
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
     };
 
+    // функция описывающая поведение при передвижении указателя
+    var onMouseMove = function (mouseMoveEvt) {
+      mouseMoveEvt.preventDefault();
 
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
-    pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
-  };
-
-  // функция описывающая поведении при отпускании мыши
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-    tokyo.removeEventListener('mousemove', onMouseMove);
-    tokyo.removeEventListener('mouseup', onMouseUp);
-    pinMain.style.zIndex = 0;
-
-    // Функция вичисления координат, куда указывает метка острым концом
-    function pinСoordinates(pinName) {
-      var pinWidth = Math.round(pinName.getBoundingClientRect().right - pinName.getBoundingClientRect().left);
-      var pinHeight = Math.round(pinName.getBoundingClientRect().bottom - pinName.getBoundingClientRect().top);
-
-      var coordinatesLeft = pinName.offsetLeft + pinWidth / 2;
-      var coordinatesTop = pinName.offsetTop + pinHeight;
-
-      return {
-        coordinatesLeft: coordinatesLeft,
-        coordinatesTop: coordinatesTop
+      var shift = {
+        x: startCoords.x - mouseMoveEvt.clientX,
+        y: startCoords.y - mouseMoveEvt.clientY
       };
-    }
 
-    // присвоение форме значения найденных координат
-    addressForm.value = 'x:' + pinСoordinates(pinMain).coordinatesLeft + ', y:' + pinСoordinates(pinMain).coordinatesTop;
-  };
 
-  var tokyo = document.querySelector('.tokyo');
-  tokyo.addEventListener('mousemove', onMouseMove);
-  tokyo.addEventListener('mouseup', onMouseUp);
+      startCoords = {
+        x: mouseMoveEvt.clientX,
+        y: mouseMoveEvt.clientY
+      };
 
-});
+      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
+      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+    };
 
+    // функция описывающая поведении при отпускании мыши
+    var onMouseUp = function (mouseUpEvt) {
+      mouseUpEvt.preventDefault();
+      tokyo.removeEventListener('mousemove', onMouseMove);
+      tokyo.removeEventListener('mouseup', onMouseUp);
+      pinMain.classList.remove('z-index');
+
+
+      // присвоение форме значения найденных координат
+      addressForm.value = 'x:' + getPinCoordinates(pinMain).coordinatesLeft + ', y:' + getPinCoordinates(pinMain).coordinatesTop;
+    };
+
+    var tokyo = document.querySelector('.tokyo');
+    tokyo.addEventListener('mousemove', onMouseMove);
+    tokyo.addEventListener('mouseup', onMouseUp);
+  });
+})();
 

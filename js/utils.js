@@ -27,4 +27,3 @@
     getRandomDigit: getRandomDigit
   };
 })();
-
