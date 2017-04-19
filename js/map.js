@@ -59,10 +59,11 @@
   var addressForm = document.getElementById('address');
   addressForm.setAttribute('readonly', '');
 
-  // Функция вичисления координат, куда указывает метка острым концом
+  // Функция вычисления координат, куда указывает метка острым концом
   function getPinCoordinates(pinName) {
-    var pinWidth = Math.round(pinName.getBoundingClientRect().right - pinName.getBoundingClientRect().left);
-    var pinHeight = Math.round(pinName.getBoundingClientRect().bottom - pinName.getBoundingClientRect().top);
+    var clientRect = pinName.getBoundingClientRect();
+    var pinWidth = Math.round(clientRect.right - clientRect.left);
+    var pinHeight = Math.round(clientRect.bottom - clientRect.top);
     var coordinatesLeft = pinName.offsetLeft + pinWidth / 2;
     var coordinatesTop = pinName.offsetTop + pinHeight;
     return {
