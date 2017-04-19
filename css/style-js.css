@@ -5,3 +5,7 @@
 .invalid {
   border: 2px solid red !important;
 }
+
+.z-index {
+  z-index: 5;
+}
