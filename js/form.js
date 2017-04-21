@@ -7,27 +7,31 @@
   titleForm.setAttribute('maxlength', '100');
   titleForm.setAttribute('minlength', '30');
 
-//  Валидация "Цена за ночь"
+  // Валидация "Цена за ночь"
   var formPrice = document.getElementById('price');
   formPrice.setAttribute('required', true);
   formPrice.setAttribute('min', '1000');
   formPrice.setAttribute('max', '1000000');
 
-  var time = document.querySelector('#time');
+
+  // Синхнонизация времени
+  var timeIn = document.querySelector('#time');
   var timeOut = document.querySelector('#timeout');
 
-  //  Функция синхронизации время заезда
-  time.onchange = function () {
-    timeOut.value = time.value;
+  var timeObject = {
+    'time-12': 'time-12',
+    'time-13': 'time-13',
+    'time-14': 'time-14'
   };
 
-  //  Функция синхронизации время выезда
-  timeOut.onchange = function () {
-    time.value = timeOut.value;
+  var syncTime = function (suncElement, value, key) {
+    suncElement.value = value;
   };
 
+  window.synchronizeFields(timeIn, timeOut, timeObject, syncTime);
+  window.synchronizeFields(timeOut, timeIn, timeObject, syncTime);
 
-  // Объект типов жилья
+  // синхронизация типа жилья и цены
   var typeHousesMinPrice = {
     flat: 1000,
     shack: 0,
@@ -37,12 +41,13 @@
   var type = document.getElementById('type');
   var price = document.getElementById('price');
 
-  // Функция синхронизации цены и жилья
-  type.addEventListener('change', function () {
-    price.setAttribute('min', typeHousesMinPrice[type.value]);
-  });
+  var setAttributeMin = function (suncElement, value, key) {
+    suncElement.setAttribute('min', value);
+  };
 
-  // Объект кол-во комнат
+  window.synchronizeFields(type, price, typeHousesMinPrice, setAttributeMin);
+
+  // синхронизации  кол-ва комнат и гостей
   var rooms = {
     '1-rooms': 'not-guests',
     '2-rooms': '3-guests',
@@ -51,19 +56,17 @@
 
   var roomNumber = document.getElementById('room_number');
   var capacity = document.getElementById('capacity');
+  var suncRoomNumber = function (suncElement, value, key) {
+    suncElement.value = value;
+  };
 
-  //  Функция синхронизации  кол-ва комнат и гостей
+  var suncCapacity = function (suncElement, value, key) {
+    suncElement.value = key;
+  };
+
   capacity.value = 'not-guests';
-  roomNumber.onchange = function () {
-    capacity.value = rooms[roomNumber.value];
-  };
 
-  capacity.onchange = function () {
-    for (var key in rooms) {
-      if (rooms[key] === capacity.value) {
-        roomNumber.value = key;
-        return;
-      }
-    }
-  };
+  window.synchronizeFields(roomNumber, capacity, rooms, suncRoomNumber);
+
+  window.synchronizeFields(capacity, roomNumber, rooms, suncCapacity);
 })();
