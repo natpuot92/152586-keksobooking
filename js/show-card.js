@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.showCard = (function () {
+  window.showCard = function () {
     function showCard(activePin, cardDialog, callback) {
       activePin.addEventListener('click', function (evt) {
         cardDialog.classList.remove('hidden');
@@ -18,5 +18,5 @@
       });
     }
     return showCard;
-  });
+  };
 })();

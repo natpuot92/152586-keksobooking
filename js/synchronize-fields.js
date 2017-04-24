@@ -1,5 +1,5 @@
 'use strict';
-
+(function() {
 window.synchronizeFields = function (changeField, suncField, changeFieldValues, suncFieldValues, callback) {
   changeField.addEventListener('change', function () {
     for (var i = 0; i < changeFieldValues.length; i++) {
@@ -10,3 +10,4 @@ window.synchronizeFields = function (changeField, suncField, changeFieldValues, 
     }
   });
 };
+})();
