@@ -7,63 +7,78 @@
   titleForm.setAttribute('maxlength', '100');
   titleForm.setAttribute('minlength', '30');
 
-//  Валидация "Цена за ночь"
+  // Валидация "Цена за ночь"
   var formPrice = document.getElementById('price');
   formPrice.setAttribute('required', true);
   formPrice.setAttribute('min', '1000');
   formPrice.setAttribute('max', '1000000');
 
-  var time = document.querySelector('#time');
+
+  // Синхнонизация времени
+  var timeIn = document.querySelector('#time');
   var timeOut = document.querySelector('#timeout');
 
-  //  Функция синхронизации время заезда
-  time.onchange = function () {
-    timeOut.value = time.value;
+  var timeOutValues = [
+    'time-12',
+    'time-13',
+    'time-14'
+  ];
+
+  var timeInValues = [
+    'time-12',
+    'time-13',
+    'time-14'
+  ];
+
+  var syncValues = function (element, value) {
+    element.value = value;
   };
 
-  //  Функция синхронизации время выезда
-  timeOut.onchange = function () {
-    time.value = timeOut.value;
+  var syncValueWithMin = function (element, min) {
+    element.min = min;
   };
 
+  window.synchronizeFields(timeIn, timeOut, timeInValues, timeOutValues, syncValues);
+  window.synchronizeFields(timeOut, timeIn, timeOutValues, timeInValues, syncValues);
 
-  // Объект типов жилья
-  var typeHousesMinPrice = {
-    flat: 1000,
-    shack: 0,
-    palace: 10000
-  };
+  // синхронизация типа жилья и цены
+  var priceValues = [
+    1000,
+    0,
+    10000
+  ];
+
+  var offerValues = [
+    'flat',
+    'shack',
+    'palace'
+  ];
 
   var type = document.getElementById('type');
   var price = document.getElementById('price');
 
-  // Функция синхронизации цены и жилья
-  type.addEventListener('change', function () {
-    price.setAttribute('min', typeHousesMinPrice[type.value]);
-  });
+  window.synchronizeFields(type, price, offerValues, priceValues, syncValueWithMin);
 
-  // Объект кол-во комнат
-  var rooms = {
-    '1-rooms': 'not-guests',
-    '2-rooms': '3-guests',
-    '100-rooms': '3-guests'
-  };
+  // синхронизации  кол-ва комнат и гостей
+  var rooms = [
+    '1-rooms',
+    '2-rooms',
+    '100-rooms'
+  ];
+
+  var guests = [
+    'not-guests',
+    '3-guests',
+    '3-guests'
+  ];
 
   var roomNumber = document.getElementById('room_number');
   var capacity = document.getElementById('capacity');
 
-  //  Функция синхронизации  кол-ва комнат и гостей
   capacity.value = 'not-guests';
-  roomNumber.onchange = function () {
-    capacity.value = rooms[roomNumber.value];
-  };
 
-  capacity.onchange = function () {
-    for (var key in rooms) {
-      if (rooms[key] === capacity.value) {
-        roomNumber.value = key;
-        return;
-      }
-    }
-  };
+  window.synchronizeFields(roomNumber, capacity, rooms, guests, syncValues);
+
+  window.synchronizeFields(capacity, roomNumber, guests, rooms, syncValues);
 })();
+
