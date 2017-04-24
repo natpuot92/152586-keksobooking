@@ -18,55 +18,67 @@
   var timeIn = document.querySelector('#time');
   var timeOut = document.querySelector('#timeout');
 
-  var timeObject = {
-    'time-12': 'time-12',
-    'time-13': 'time-13',
-    'time-14': 'time-14'
+  var timeOutValues = [
+    'time-12',
+    'time-13',
+    'time-14'
+  ];
+
+  var timeInValues = [
+    'time-12',
+    'time-13',
+    'time-14'
+  ];
+
+  var syncValues = function (element, value) {
+    element.value = value;
   };
 
-  var syncTime = function (suncElement, value, key) {
-    suncElement.value = value;
+  var syncValueWithMin = function (element, min) {
+    element.min = min;
   };
 
-  window.synchronizeFields(timeIn, timeOut, timeObject, syncTime);
-  window.synchronizeFields(timeOut, timeIn, timeObject, syncTime);
+  window.synchronizeFields(timeIn, timeOut, timeInValues, timeOutValues, syncValues);
+  window.synchronizeFields(timeOut, timeIn, timeOutValues, timeInValues, syncValues);
 
   // синхронизация типа жилья и цены
-  var typeHousesMinPrice = {
-    flat: 1000,
-    shack: 0,
-    palace: 10000
-  };
+  var priceValues = [
+    1000,
+    0,
+    10000
+  ];
+
+  var offerValues = [
+    'flat',
+    'shack',
+    'palace'
+  ];
 
   var type = document.getElementById('type');
   var price = document.getElementById('price');
 
-  var setAttributeMin = function (suncElement, value, key) {
-    suncElement.setAttribute('min', value);
-  };
-
-  window.synchronizeFields(type, price, typeHousesMinPrice, setAttributeMin);
+  window.synchronizeFields(type, price, offerValues, priceValues, syncValueWithMin);
 
   // синхронизации  кол-ва комнат и гостей
-  var rooms = {
-    '1-rooms': 'not-guests',
-    '2-rooms': '3-guests',
-    '100-rooms': '3-guests'
-  };
+  var rooms = [
+    '1-rooms',
+    '2-rooms',
+    '100-rooms'
+  ];
+
+  var guests = [
+    'not-guests',
+    '3-guests',
+    '3-guests'
+  ];
 
   var roomNumber = document.getElementById('room_number');
   var capacity = document.getElementById('capacity');
-  var suncRoomNumber = function (suncElement, value, key) {
-    suncElement.value = value;
-  };
-
-  var suncCapacity = function (suncElement, value, key) {
-    suncElement.value = key;
-  };
 
   capacity.value = 'not-guests';
 
-  window.synchronizeFields(roomNumber, capacity, rooms, suncRoomNumber);
+  window.synchronizeFields(roomNumber, capacity, rooms, guests, syncValues);
 
-  window.synchronizeFields(capacity, roomNumber, rooms, suncCapacity);
+  window.synchronizeFields(capacity, roomNumber, guests, rooms, syncValues);
 })();
+
