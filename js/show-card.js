@@ -1,5 +1,6 @@
 'use strict';
 
+(function () {
 window.showCard = (function () {
   function showCard(activePin, cardDialog, callback) {
     activePin.addEventListener('click', function (evt) {
@@ -17,6 +18,6 @@ window.showCard = (function () {
     });
   }
   return showCard;
-}
-)();
+})
+})();
 

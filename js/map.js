@@ -6,7 +6,6 @@
 
   var offerDialog = document.getElementById('offer-dialog');
 
-  // функция callback
   var dialogOpenHandler = function (evt) {
     var clickedPin = evt.currentTarget;
     window.managementActivePin.deleteActivePin();
