@@ -1,28 +1,18 @@
 'use strict';
 (function () {
-  var offerDialog = document.getElementById('offer-dialog');
+  window.offerDialog = document.getElementById('offer-dialog');
 
   // функция callback
-  var dialogOpenHandler = function (evt) {
+  window.dialogOpenHandler = function (evt) {
     var clickedPin = evt.currentTarget;
     window.managementActivePin.deleteActivePin();
     window.managementActivePin.setActivePin(clickedPin);
   };
 
   var dialogCloseHandler = function () {
-    offerDialog.classList.add('hidden');
+    window.offerDialog.classList.add('hidden');
     window.managementActivePin.deleteActivePin();
   };
-
-  var successHandler = function (data) {
-    var pins = document.querySelectorAll('.pin:not(.pin__main)');
-
-    for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
-      window.showCard(pins[pinIndex], offerDialog, dialogOpenHandler);
-    }
-  };
-
-  window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/keksobooking/data', successHandler);
 
   var buttonDialogClose = document.querySelector('.dialog__close');
 

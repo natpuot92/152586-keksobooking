@@ -48,6 +48,13 @@
 
     window.managementActivePin.setActivePin(document.querySelector('.pin[data-set = "0"]'));
     window.advertisements = data;
+
+    var pins = document.querySelectorAll('.pin:not(.pin__main)');
+
+    for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
+      window.showCard(pins[pinIndex], window.offerDialog, window.dialogOpenHandler);
+    }
+
   };
 
   window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/keksobooking/data', successHandler, errorHandler);
