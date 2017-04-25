@@ -50,7 +50,7 @@
     }
 
     description.innerHTML = place.offer.description;
-    avatar.src = place.autor.avatar;
+    avatar.src = place.author.avatar;
   };
 })();
 
