@@ -13,6 +13,8 @@
   };
 
   var successHandler = function (data) {
+    window.advertisements = data;
+
     for (var j = 0; j < data.length; j++) {
       var childDiv = document.createElement('div');
       childDiv.className = 'pin';
@@ -26,35 +28,26 @@
 
     parentPinMap.appendChild(fragment);
 
-    var PIN_ACTIVE_CLASS_NAME = 'pin--active';
-    var deleteActivePin = function () {
-
-      var pinActive = document.querySelector('.' + PIN_ACTIVE_CLASS_NAME);
-      if (pinActive) {
-        pinActive.classList.remove(PIN_ACTIVE_CLASS_NAME);
-      }
-    };
-
-    var setActivePin = function (pinNode) {
-      pinNode.classList.add(PIN_ACTIVE_CLASS_NAME);
-    };
-
-    window.managementActivePin = {
-      deleteActivePin: deleteActivePin,
-      setActivePin: setActivePin
-    };
-
-    window.renderCard(data[0]);
-
-    window.managementActivePin.setActivePin(document.querySelector('.pin[data-set = "0"]'));
-    window.advertisements = data;
-
     var pins = document.querySelectorAll('.pin:not(.pin__main)');
 
     for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
       window.showCard(pins[pinIndex], window.offerDialog, window.dialogOpenHandler);
     }
+  };
 
+  var PIN_ACTIVE_CLASS_NAME = 'pin--active';
+  var deleteActivePin = function () {
+    var pinActive = document.querySelector('.' + PIN_ACTIVE_CLASS_NAME);
+    if (pinActive) {
+      pinActive.classList.remove(PIN_ACTIVE_CLASS_NAME);
+    }
+  };
+  var setActivePin = function (pinNode) {
+    pinNode.classList.add(PIN_ACTIVE_CLASS_NAME);
+  };
+  window.managementActivePin = {
+    deleteActivePin: deleteActivePin,
+    setActivePin: setActivePin
   };
 
   window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/keksobooking/data', successHandler, errorHandler);

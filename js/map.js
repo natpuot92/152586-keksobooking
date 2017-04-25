@@ -1,8 +1,8 @@
 'use strict';
 (function () {
   window.offerDialog = document.getElementById('offer-dialog');
+  window.offerDialog.classList.add('hidden');
 
-  // функция callback
   window.dialogOpenHandler = function (evt) {
     var clickedPin = evt.currentTarget;
     window.managementActivePin.deleteActivePin();
