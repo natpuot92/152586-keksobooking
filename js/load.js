@@ -8,7 +8,8 @@
 
     xhr.addEventListener('load', function (evt) {
       switch (xhr.status) {
-        case 200: onLoad(xhr.response);
+        case 200:
+          onLoad(xhr.response);
           break;
         case 400:
           onError('Неверный запрос');
