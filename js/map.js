@@ -1,27 +1,18 @@
 'use strict';
 (function () {
-  window.renderCard(window.advertisements[0]);
+  window.offerDialog = document.getElementById('offer-dialog');
+  window.offerDialog.classList.add('hidden');
 
-  window.managementActivePin.setActivePin(document.querySelector('.pin[data-set = "0"]'));
-
-  var offerDialog = document.getElementById('offer-dialog');
-
-  var dialogOpenHandler = function (evt) {
+  window.dialogOpenHandler = function (evt) {
     var clickedPin = evt.currentTarget;
     window.managementActivePin.deleteActivePin();
     window.managementActivePin.setActivePin(clickedPin);
   };
 
   var dialogCloseHandler = function () {
-    offerDialog.classList.add('hidden');
+    window.offerDialog.classList.add('hidden');
     window.managementActivePin.deleteActivePin();
   };
-
-  var pins = document.querySelectorAll('.pin:not(.pin__main)');
-
-  for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
-    window.showCard(pins[pinIndex], offerDialog, dialogOpenHandler);
-  }
 
   var buttonDialogClose = document.querySelector('.dialog__close');
 

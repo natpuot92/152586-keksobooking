@@ -9,3 +9,14 @@
 .z-index {
   z-index: 5;
 }
+
+.error {
+  position: fixed;
+  top = 0;
+  z-index: 100;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 30px;
+  background-color: red;
+  color: white; ;
+}
