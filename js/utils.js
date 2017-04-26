@@ -14,7 +14,5 @@
   window.utils = {
     isEnterPressed: isEnterPressed,
     isEscPressed: isEscPressed,
-    getArrayRandomNumber: getArrayRandomNumber,
-    getRandomDigit: getRandomDigit
   };
 })();
