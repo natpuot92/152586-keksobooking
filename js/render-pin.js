@@ -19,8 +19,8 @@
 
     window.pins = document.querySelectorAll('.pin:not(.pin__main)');
 
-    for (var pinIndex = 0; pinIndex < pins.length; pinIndex++) {
-      window.showCard(pins[pinIndex], window.offerDialog, window.dialogOpenHandler);
+    for (var pinIndex = 0; pinIndex < window.pins.length; pinIndex++) {
+      window.showCard(window.pins[pinIndex], window.offerDialog, window.dialogOpenHandler);
     }
   };
 })();
