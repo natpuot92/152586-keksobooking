@@ -26,8 +26,9 @@
 
   var successHandler = function (data) {
     window.advertisements = data;
+    window.filteredAdvertisements = data;
     window.renderPin(data);
-    window.onMomentFilter = window.advertisements;
+    console.log(window.filteredAdvertisements);
   };
 
   window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/keksobooking/data', successHandler, errorHandler);
@@ -37,132 +38,231 @@
   var filterElements = document.querySelectorAll('.tokyo__filter');
 
   var filteredAdvertisements = [];
-//  filterElements.forEach(function (filterElement) {
-//  filterElement.addEventListener('change', function () {
 
-  var typeHouse = document.querySelector('#housing_type');
-  var housingPrice = document.querySelector('#housing_price');
-  var roomNumber = document.querySelector('#housing_room-number');
-  var housingGuests = document.querySelector('#housing_guests-number');
+  var parentElement =  document.querySelector('.tokyo__filters-container');
+  var typeHouse = parentElement.querySelector('#housing_type');
+  var housingPrice = parentElement.querySelector('#housing_price');
+  var roomNumber = parentElement.querySelector('#housing_room-number');
+  var housingGuests = parentElement.querySelector('#housing_guests-number');
+  var wifiFilter = parentElement.querySelector('.tokyo__filter-set input[value="wifi"]');
+  var dishwasherFilter = parentElement.querySelector('.tokyo__filter-set input[value="dishwasher"]');
+  var parkingFilter = parentElement.querySelector('.tokyo__filter-set input[value="parking"]');
+  var washerFilter = parentElement.querySelector('.tokyo__filter-set input[value="washer"]');
+  var elevatorFilter = parentElement.querySelector('.tokyo__filter-set input[value="elevator"]');
+  var conditionerFilter = parentElement.querySelector('.tokyo__filter-set input[value = "conditioner"]');
+    console.log(parkingFilter)
 
-  var selectOptionValues = {
+  var optionValues = {
     typeHouse: "any",
     housingPrice: "middle",
     roomNumber: "any",
-    housingGuests: "any"
+    housingGuests: "any",
+    wifi: "any",
+    dishwasher: "any",
+    parking: "any",
+    washer: "any",
+    elevator: "any",
+    conditioner: "any"
   }
 
 
   function typeHouseFilter () {
-     if ((!(selectOptionValues.typeHouse === 'any'))) {
-        window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-         return it.offer.type === selectOptionValues.typeHouse;
+      if ((!(optionValues.typeHouse === 'any'))) {
+         window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
+         return (it.offer.type + "") === optionValues.typeHouse;
+        })
+      };
+  }
+
+  function roomNumberFilter () {
+      if ((!(optionValues.roomNumber === 'any'))) {
+         window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
+         return (it.offer.rooms + "") === optionValues.roomNumber;
+        })
+      };
+  }
+
+  function housingGuestsFilter () {
+    if ((!(optionValues.housingGuests === 'any'))) {
+         window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
+         return (it.offer.rooms + "") === optionValues.housingGuests;
         })
       };
   }
 
   function housingPriceFilter () {
-    debugger
-    if (selectOptionValues.housingPrice === "middle") {
+    if (optionValues.housingPrice === "middle") {
       window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-         return (it.offer.price > 10000 && it.offer.price < 50000)
-    })} else if (selectOptionValues.housingPrice === "low") {
-         window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-        return it.offer.price < 10000;
-         })
-       } else {
-      window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-         return it.offer.price > 50000;
-       })
+        return (it.offer.price > 10000 && it.offer.price < 50000)
+      })
+      } else if (optionValues.housingPrice === "low") {
+        window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
+          return it.offer.price < 10000;
+        })
+      } else {
+        window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
+          return it.offer.price > 50000;
+      })
     }
   };
 
-  function roomNumberFilter () {
-        if ((!(selectOptionValues.roomNumber === 'any'))) {
-      window.filteredAdvertisements =  window.filteredAdvertisements.filter(function (it) {
-        return it.offer.rooms === parseInt(selectOptionValues.roomNumber);
-      });
-      };
-  };
+  //function checkboxFilterFor {
+//
+//  }
 
-  function housingGuestsFilter () {
-    if ((!(selectOptionValues.housingGuests === 'any'))) {
+  function checkboxFilter(keyName) {
+    if ((!(keyName === 'any'))) {
       window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-      return it.offer.guests === parseInt(selectOptionValues.housingGuests);
-    })
+       for (var i = 0; i < it.offer.features.length; i++) {
+            if ((!(keyName === 'any'))) {
+            if (it.offer.features[i] === keyName){
+              return true;
+            }
+          }
+        }
+      })
     }
   }
 
-  typeHouse.addEventListener('change', function () {
-
-    delete selectOptionValues.typeHouse;
-    for (var i = 0; i <  typeHouse.options.length; i++) {
-      if (typeHouse.options[i].selected) {
-        selectOptionValues.typeHouse = typeHouse.options[i].value;
-        break;
-      }
-    }
-      window.filteredAdvertisements = window.advertisements;
-
-    typeHouseFilter ();
-    roomNumberFilter ();
+  function allFilters() {
+    typeHouseFilter();
+    housingGuestsFilter ()
+    roomNumberFilter ()
     housingPriceFilter ();
-    housingGuestsFilter ();
+    checkboxFilter(optionValues.wifi);
+    checkboxFilter(optionValues.dishwasher);
+    checkboxFilter(optionValues.elevator);
+    checkboxFilter(optionValues.conditioner);
+    checkboxFilter(optionValues.washer);
+    checkboxFilter(optionValues.parking);
+  }
 
-    console.log(window.filteredAdvertisements);
-
-      window.pins.forEach(function (pin) {
+  function endFunction() {
+    window.filteredAdvertisements = window.advertisements;
+    allFilters();
+    window.pins.forEach(function (pin) {
       pin.classList.add('hidden');
     });
 
      window.renderPin(window.filteredAdvertisements);
+  }
+
+  typeHouse.addEventListener('change', function () {
+    delete optionValues.typeHouse;
+
+    for (var i = 0; i <  typeHouse.options.length; i++) {
+      if (typeHouse.options[i].selected) {
+        optionValues.typeHouse = typeHouse.options[i].value;
+        break;
+      }
+    }
+
+    endFunction();
   });
 
 
   roomNumber.addEventListener('change', function () {
-    delete selectOptionValues.roomNumber;
+
+    delete optionValues.roomNumber;
+
     for (var i = 0; i < roomNumber.options.length; i++) {
+
       if (roomNumber.options[i].selected) {
-        selectOptionValues.roomNumber = roomNumber.options[i].value;
+        optionValues.roomNumber = roomNumber.options[i].value;
+        console.log(optionValues)
         break;
       }
     }
-    window.filteredAdvertisements = window.advertisements;
-    console.log(selectOptionValues);
-
-    typeHouseFilter ();
-    roomNumberFilter ();
-    housingPriceFilter ();
-    housingGuestsFilter ();
-
-      window.pins.forEach(function (pin) {
-      pin.classList.add('hidden');
-    });
-
-     window.renderPin(window.filteredAdvertisements);
-
+    endFunction();
   });
 
 
     housingPrice.addEventListener('change', function () {
-      delete selectOptionValues.housingPrice;
+      delete optionValues.housingPrice;
       for (var i = 0; i < roomNumber.options.length; i++) {
         if (housingPrice.options[i].selected) {
-          selectOptionValues.housingPrice = housingPrice.options[i].value;
+          optionValues.housingPrice = housingPrice.options[i].value;
           break;
         }
       }
-      window.filteredAdvertisements = window.advertisements;
-
-      typeHouseFilter ();
-      roomNumberFilter ();
-      housingPriceFilter ();
-      housingGuestsFilter ();
-
-      window.pins.forEach(function (pin) {
-        pin.classList.add('hidden');
+     endFunction();
     });
-      window.renderPin(window.filteredAdvertisements);
-    });
+
+
+  housingGuests.addEventListener('change', function () {
+    delete optionValues.housingGuests;
+    for (var i = 0; i < housingGuests.options.length; i++) {
+      if (housingGuests.options[i].selected) {
+        optionValues.housingGuests = housingGuests.options[i].value;
+        break;
+      }
+    }
+  endFunction();
+});
+
+   wifiFilter.addEventListener('change', function () {
+    delete optionValues.wifiFilter;
+      if (wifiFilter.checked) {
+        optionValues.wifi = wifiFilter.value;
+        } else {
+          optionValues.wifi = "any";
+        }
+
+    endFunction();
+  });
+
+  dishwasherFilter.addEventListener('change', function () {
+        delete optionValues.dishwasherFilter;
+      if (dishwasherFilter.checked) {
+        optionValues.dishwasher = dishwasherFilter.value;
+        } else {
+          optionValues.dishwasher = "any";
+        }
+
+    endFunction();
+  });
+
+  parkingFilter.addEventListener('change', function () {
+      delete optionValues.parkingFilter;
+      if (parkingFilter.checked) {
+        optionValues.parking = parkingFilter.value;
+        } else {
+          optionValues.parking = "any";
+        }
+
+    endFunction();
+  });
+
+  washerFilter.addEventListener('change', function () {
+      delete optionValues.washerFilter;
+      if (washerFilter.checked) {
+        optionValues.washer = washerFilter.value;
+        } else {
+          optionValues.washer = "any";
+        }
+
+    endFunction();
+  });
+
+  elevatorFilter.addEventListener('change', function () {
+      delete optionValues.elevatorFilter;
+      if (elevatorFilter.checked) {
+        optionValues.elevator = elevatorFilter.value;
+        } else {
+          optionValues.elevator = "any";
+        }
+
+    endFunction();
+  });
+  conditionerFilter.addEventListener('change', function () {
+      delete optionValues.conditionerFilter;
+      if (conditionerFilter.checked) {
+        optionValues.conditioner = conditionerFilter.value;
+        } else {
+          optionValues.conditioner = "any";
+        }
+
+    endFunction();
+  });
 
 })();
