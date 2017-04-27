@@ -106,10 +106,6 @@
     }
   };
 
-  //function checkboxFilterFor {
-//
-//  }
-
   function checkboxFilter(keyName) {
     if ((!(keyName === 'any'))) {
       window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
@@ -137,15 +133,17 @@
     checkboxFilter(optionValues.parking);
   }
 
-  function endFunction() {
+
+
+  var endFunction = function () {
     window.filteredAdvertisements = window.advertisements;
     allFilters();
     window.pins.forEach(function (pin) {
       pin.classList.add('hidden');
-    });
+    })
 
-     window.renderPin(window.filteredAdvertisements);
-  }
+    window.renderPin(window.filteredAdvertisements);
+    }
 
   typeHouse.addEventListener('change', function () {
     delete optionValues.typeHouse;
@@ -157,7 +155,7 @@
       }
     }
 
-    endFunction();
+    window.debounce(endFunction);
   });
 
 
@@ -169,11 +167,10 @@
 
       if (roomNumber.options[i].selected) {
         optionValues.roomNumber = roomNumber.options[i].value;
-        console.log(optionValues)
         break;
       }
     }
-    endFunction();
+   window.debounce(endFunction);
   });
 
 
@@ -185,7 +182,7 @@
           break;
         }
       }
-     endFunction();
+      window.debounce(endFunction);
     });
 
 
@@ -197,7 +194,7 @@
         break;
       }
     }
-  endFunction();
+   window.debounce(endFunction);
 });
 
    wifiFilter.addEventListener('change', function () {
@@ -208,7 +205,7 @@
           optionValues.wifi = "any";
         }
 
-    endFunction();
+     window.debounce(endFunction);
   });
 
   dishwasherFilter.addEventListener('change', function () {
@@ -219,7 +216,7 @@
           optionValues.dishwasher = "any";
         }
 
-    endFunction();
+    window.debounce(endFunction);
   });
 
   parkingFilter.addEventListener('change', function () {
@@ -230,7 +227,7 @@
           optionValues.parking = "any";
         }
 
-    endFunction();
+    window.debounce(endFunction);
   });
 
   washerFilter.addEventListener('change', function () {
@@ -241,7 +238,7 @@
           optionValues.washer = "any";
         }
 
-    endFunction();
+    window.debounce(endFunction);
   });
 
   elevatorFilter.addEventListener('change', function () {
@@ -252,7 +249,7 @@
           optionValues.elevator = "any";
         }
 
-    endFunction();
+    window.debounce(endFunction);
   });
   conditionerFilter.addEventListener('change', function () {
       delete optionValues.conditionerFilter;
@@ -262,7 +259,7 @@
           optionValues.conditioner = "any";
         }
 
-    endFunction();
+    window.debounce(endFunction);
   });
 
 })();
