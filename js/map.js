@@ -84,7 +84,6 @@
       tokyo.removeEventListener('mouseup', onMouseUp);
       pinMain.classList.remove('z-index');
 
-
       // присвоение форме значения найденных координат
       addressForm.value = 'x:' + getPinCoordinates(pinMain).coordinatesLeft + ', y:' + getPinCoordinates(pinMain).coordinatesTop;
     };

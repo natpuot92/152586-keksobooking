@@ -13,7 +13,6 @@
   formPrice.setAttribute('min', '1000');
   formPrice.setAttribute('max', '1000000');
 
-
   // Синхнонизация времени
   var timeIn = document.querySelector('#time');
   var timeOut = document.querySelector('#timeout');

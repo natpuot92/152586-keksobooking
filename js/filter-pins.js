@@ -65,7 +65,6 @@
     }
   }
 
-
   function allFilters() {
     typeHouseFilter();
     housingGuestsFilter();
@@ -112,7 +111,6 @@
     }
     window.debounce(filtersAndRenderPins);
   });
-
 
   housingPrice.addEventListener('change', function () {
     delete optionValues.housingPrice;

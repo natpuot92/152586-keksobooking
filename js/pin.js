@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var PIN_ACTIVE_CLASS_NAME = 'pin--active';
   var deleteActivePin = function () {
     var pinActive = document.querySelector('.' + PIN_ACTIVE_CLASS_NAME);
