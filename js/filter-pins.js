@@ -1,11 +1,8 @@
 'use strict';
 
 (function () {
+  var selectElements = document.querySelectorAll('.tokyo__filter');
   var parentElement = document.querySelector('.tokyo__filters-container');
-  var typeHouse = parentElement.querySelector('#housing_type');
-  var housingPrice = parentElement.querySelector('#housing_price');
-  var roomNumber = parentElement.querySelector('#housing_room-number');
-  var housingGuests = parentElement.querySelector('#housing_guests-number');
   var checkboxElements = parentElement.querySelectorAll('.feature input[type="checkbox"]');
 
   var optionValues = {
@@ -22,25 +19,25 @@
   };
 
   function typeHouseFilter() {
-    if ((!(optionValues.typeHouse === 'any'))) {
-      window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-        return (it.offer.type + '') === optionValues.typeHouse;
+    if (!(optionValues.typeHouse === 'any')) {
+      window.filteredAdvertisements = window.filteredAdvertisements.filter(function (arrayElement) {
+        return (arrayElement.offer.type + '') === optionValues.typeHouse;
       });
     }
   }
 
   function roomNumberFilter() {
-    if ((!(optionValues.roomNumber === 'any'))) {
-      window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-        return (it.offer.rooms + '') === optionValues.roomNumber;
+    if (!(optionValues.roomNumber === 'any')) {
+      window.filteredAdvertisements = window.filteredAdvertisements.filter(function (arrayElement) {
+        return (arrayElement.offer.rooms + '') === optionValues.roomNumber;
       });
     }
   }
 
   function housingGuestsFilter() {
-    if ((!(optionValues.housingGuests === 'any'))) {
-      window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-        return (it.offer.rooms + '') === optionValues.housingGuests;
+    if (!(optionValues.housingGuests === 'any')) {
+      window.filteredAdvertisements = window.filteredAdvertisements.filter(function (arrayElement) {
+        return (arrayElement.offer.guests + '') === optionValues.housingGuests;
       });
     }
   }
@@ -90,60 +87,22 @@
     window.offerDialog.classList.add('hidden');
   };
 
-  typeHouse.addEventListener('change', function () {
-
-    for (var i = 0; i < typeHouse.options.length; i++) {
-      if (typeHouse.options[i].selected) {
-        optionValues.typeHouse = typeHouse.options[i].value;
-        break;
+  selectElements.forEach(function (select) {
+    select.addEventListener('change', function () {
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].selected) {
+          optionValues[select.getAttribute('data-filter')] = select.options[i].value;
+          break;
+        }
       }
-    }
-
-    window.debounce(filtersAndRenderPins);
-  });
-
-  roomNumber.addEventListener('change', function () {
-    for (var i = 0; i < roomNumber.options.length; i++) {
-      if (roomNumber.options[i].selected) {
-        optionValues.roomNumber = roomNumber.options[i].value;
-        break;
-      }
-    }
-    window.debounce(filtersAndRenderPins);
-  });
-
-  housingPrice.addEventListener('change', function () {
-    delete optionValues.housingPrice;
-    for (var i = 0; i < roomNumber.options.length; i++) {
-      if (housingPrice.options[i].selected) {
-        optionValues.housingPrice = housingPrice.options[i].value;
-        break;
-      }
-    }
-    window.debounce(filtersAndRenderPins);
-  });
-
-  housingGuests.addEventListener('change', function () {
-    for (var i = 0; i < housingGuests.options.length; i++) {
-      if (housingGuests.options[i].selected) {
-        optionValues.housingGuests = housingGuests.options[i].value;
-        break;
-      }
-    }
-    window.debounce(filtersAndRenderPins);
+      window.debounce(filtersAndRenderPins);
+    });
   });
 
   function checkboxFilter(keyName) {
     if ((!(keyName === 'any'))) {
       window.filteredAdvertisements = window.filteredAdvertisements.filter(function (it) {
-        for (var i = 0; i < it.offer.features.length; i++) {
-          if ((!(keyName === 'any'))) {
-            if (it.offer.features[i] === keyName) {
-              return true;
-            }
-          }
-        }
-        return false;
+        return it.offer.features.indexOf(keyName) > -1;
       });
     }
   }
