@@ -13,7 +13,6 @@
 
   parent.replaceChild(newElement, dialogPanel);
 
-
   var offerTypes = {
     flat: 'Квартира',
     house: 'Дом',
